@@ -1,0 +1,43 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper  namespace = "com.springapp.mvc.mapper.IUserMapper" >
+
+
+    <resultMap id = "result" type = "UsersDemo">
+        <result property= "id" column = "ID"/>
+        <result property = "name" column = "NAME"/>
+        <result property = "password" column ="PASSWORD"/>
+        <result property = "time" column = "TIME"/>
+    </resultMap>
+
+    <select id = "findAll" resultMap="result" >
+    SELECT * FROM USERDEMO
+    </select>
+
+    <select id = "findById" parameterType = "long" resultMap = "result">
+        SELECT ID, NAME, PASSWORD, TIME FROM USERDEMO WHERE ID = #{id}
+    </select>
+
+<insert id="add" parameterType="UsersDemo" statementType="CALLABLE">
+{call ADD_NEW_USER(#{name,jdbcType=VARCHAR,mode=IN},#{password,jdbcType=VARCHAR,mode=IN})}
+ </insert>
+
+<!--    <select id="add" parameterType="UsersDemo" statementType="CALLABLE">-->
+<!--        {call ADD_NEW_USER(#{name,jdbcType=VARCHAR,mode=IN},#{password,jdbcType=VARCHAR,mode=IN})}-->
+<!--&#45;&#45;         {call ADD_NEW_USER(#{name},#{password})}-->
+<!--    </select>-->
+
+
+
+
+    <update id="update"  parameterType="UsersDemo"  >
+                update USERDEMO set name=#{name},password=#{password} where id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="long" >
+        delete from USERDEMO where id=#{id}
+    </delete>
+
+
+</mapper>
